@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SortOption } from "@/app/types";
+import { SortOption } from "@/app/data/types";
 import { ChevronDown, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

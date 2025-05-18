@@ -53,4 +53,4 @@ import {
   GENDERS,
   PRICE_RANGES,
   STAMPS,
-} from '@/app/lib/constants';
+} from '@/lib/constants';

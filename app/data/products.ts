@@ -1,4 +1,4 @@
-import { Product, FilterOption, FilterCategory } from "../types";
+import { Product, FilterOption, FilterCategory } from "./types";
 import {
   SUB_CATEGORIES,
   STYLES,
@@ -6,7 +6,7 @@ import {
   STAMPS,
   PRODUCT_IMAGES,
   POPULAR_FILTERS,
-} from "@/app/lib/constants";
+} from "@/lib/constants";
 
 // Convert readonly arrays to regular arrays for randomItem function
 const subCategories = [...SUB_CATEGORIES];

@@ -2,10 +2,10 @@
 
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/app/types";
+import { Product } from "@/app/data/types";
 import Image from "next/image";
 import { useMediaQuery } from 'react-responsive';
-import { BREAKPOINTS } from "@/app/lib/constants";
+import { BREAKPOINTS } from "@/lib/constants";
 
 interface ProductCardProps {
   product: Product;

@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filter as FilterIcon, ChevronDown, ChevronUp } from "lucide-react";
-import { FilterOption } from "@/app/types";
-import { FILTER_CATEGORIES, POPULAR_FILTERS } from "@/app/lib/constants";
+import { FilterOption } from "@/app/data/types";
+import { FILTER_CATEGORIES, POPULAR_FILTERS } from "@/lib/constants";
 
 interface ProductFiltersProps {
   activeFilters: FilterOption[];

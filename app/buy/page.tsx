@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { type FilterOption, type SortOption, type PaginationState } from './types';
-import { ProductCard } from '@/components/product-card';
-import { ProductFilters } from '@/components/product-filters';
-import { ProductSort } from '@/components/product-sort';
-import { Pagination } from '@/components/pagination';
-import { products } from './data/products';
-import { BREAKPOINTS, ITEMS_PER_PAGE } from './lib/constants';
+import { type FilterOption, type SortOption, type PaginationState } from '@/app/data/types';
+import { ProductCard } from '@/components/product-listing/product-card';
+import { ProductFilters } from '@/components/product-listing/product-filters';
+import { ProductSort } from '@/components/product-listing/product-sort';
+import { Pagination } from '@/components/product-listing/pagination';
+import { products } from '@/app/data/products';
+import { BREAKPOINTS, ITEMS_PER_PAGE } from '@/lib/constants';
 
 // Memoized ProductCard wrapper for better performance
 const MemoizedProductCard = React.memo(ProductCard);
