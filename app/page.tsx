@@ -1,103 +1,184 @@
-import Image from "next/image";
+'use client';
+
+import React from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { type FilterOption, type SortOption, type PaginationState } from './types';
+import { ProductCard } from '@/components/product-card';
+import { ProductFilters } from '@/components/product-filters';
+import { ProductSort } from '@/components/product-sort';
+import { Pagination } from '@/components/pagination';
+import { products } from './data/products';
+import { BREAKPOINTS, ITEMS_PER_PAGE } from './lib/constants';
+
+// Memoized ProductCard wrapper for better performance
+const MemoizedProductCard = React.memo(ProductCard);
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Media query for responsive design
+  const isMobile = useMediaQuery({ maxWidth: BREAKPOINTS.mobile });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // State management
+  const [activeFilters, setActiveFilters] = React.useState<FilterOption[]>([]);
+  const [sortBy, setSortBy] = React.useState<SortOption>('popular');
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    currentPage: 1,
+    itemsPerPage: ITEMS_PER_PAGE,
+    totalItems: products.length,
+  });
+
+  // Memoized handlers
+  const handleFilterChange = React.useCallback((filter: FilterOption) => {
+    setActiveFilters(prev => {
+      const exists = prev.some(f => f.id === filter.id);
+      if (exists) {
+        return prev.filter(f => f.id !== filter.id);
+      }
+      return [...prev, filter];
+    });
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  }, []);
+
+  const handleFilterRemove = React.useCallback((filterId: string) => {
+    setActiveFilters(prev => prev.filter(f => f.id !== filterId));
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  }, []);
+
+  const handleClearFilters = React.useCallback(() => {
+    setActiveFilters([]);
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  }, []);
+
+  const handleSortChange = React.useCallback((value: SortOption) => {
+    setSortBy(value);
+  }, []);
+
+  const handlePageChange = React.useCallback((page: number) => {
+    setPagination(prev => ({ ...prev, currentPage: page }));
+  }, []);
+
+  // Memoized filter and sort computation
+  const filteredAndSortedProducts = React.useMemo(() => {
+    let result = [...products];
+
+    // Apply filters
+    if (activeFilters.length > 0) {
+      result = result.filter(product => {
+        return activeFilters.every(filter => {
+          switch (filter.category) {
+            case 'subCategory':
+              return product.subCategory === filter.label;
+            case 'style':
+              return product.style === filter.label;
+            case 'gender':
+              return product.gender === filter.label;
+            case 'stamp':
+              return product.stamp === filter.label;
+            case 'priceRange':
+              const [min, max] = filter.label
+                .replace('₹', '')
+                .split('-')
+                .map(p => parseInt(p.replace(/,/g, ''), 10));
+              return product.price >= min && (!max || product.price <= max);
+            default:
+              return true;
+          }
+        });
+      });
+    }
+
+    // Apply sorting
+    return result.sort((a, b) => {
+      switch (sortBy) {
+        case 'priceLowToHigh':
+          return a.price - b.price;
+        case 'newest':
+          return b.id - a.id;
+        case 'popular':
+        default:
+          return 0;
+      }
+    });
+  }, [products, activeFilters, sortBy]);
+
+  // Memoized pagination calculation
+  const { paginatedProducts, totalPages } = React.useMemo(() => {
+    const total = Math.ceil(filteredAndSortedProducts.length / ITEMS_PER_PAGE);
+    const items = filteredAndSortedProducts.slice(
+      (pagination.currentPage - 1) * ITEMS_PER_PAGE,
+      pagination.currentPage * ITEMS_PER_PAGE
+    );
+    return { paginatedProducts: items, totalPages: total };
+  }, [filteredAndSortedProducts, pagination.currentPage]);
+
+  // Memoized result count for header
+  const resultCount = React.useMemo(() => {
+    const count = filteredAndSortedProducts.length;
+    return `${count} ${count === 1 ? 'result' : 'results'}`;
+  }, [filteredAndSortedProducts.length]);
+
+  return (
+    <main className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px]">
+        {/* Header */}
+        <div className="pt-6 pb-4">
+          <h1 className="text-2xl sm:text-3xl font-serif text-gray-800 tracking-[-0.02em]">
+            Gold
+            <span className="text-base font-sans text-gray-500 ml-2">
+              {resultCount}
+            </span>
+          </h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Filters and Sort */}
+        <div className="py-4">
+          <div className="flex items-center justify-between gap-4">
+            <ProductFilters
+              activeFilters={activeFilters}
+              onFilterChange={handleFilterChange}
+              onFilterRemove={handleFilterRemove}
+              onClearFilters={handleClearFilters}
+              isMobile={isMobile}
+              isOpen={isFilterOpen}
+              onOpenChange={setIsFilterOpen}
+            />
+            <ProductSort
+              value={sortBy}
+              onValueChange={handleSortChange}
+              isMobile={isMobile}
+            />
+          </div>
+        </div>
+
+        {/* Product grid */}
+        <div className="py-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+            {paginatedProducts.map((product) => (
+              <MemoizedProductCard
+                key={product.id}
+                product={product}
+                onWishlist={() => {}}
+              />
+            ))}
+          </div>
+
+          {/* Empty state */}
+          {filteredAndSortedProducts.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No products found matching your criteria</p>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {filteredAndSortedProducts.length > 0 && totalPages > 1 && (
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </div>
+      </div>
+    </main>
   );
 }
