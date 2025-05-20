@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import "./globals.css";
 import Link from "next/link";
 
@@ -33,9 +34,11 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
   return (
     <html lang="en">
       <body className={'flex flex-col justify-center items-center mx-auto '}>
-        {header}
-        {children}
-        {footer}
+        <NuqsAdapter>
+          {header}
+          {children}
+          {footer}
+        </NuqsAdapter>
       </body>
     </html>
   );

@@ -1,37 +1,35 @@
 // Basic data arrays
-export const SUB_CATEGORIES = ['Earrings', 'Necklaces', 'Rings', 'Bangles'] as const;
-export const STYLES = ['Traditional', 'Contemporary', 'Fusion'] as const;
-export const GENDERS = ['Women', 'Men', 'Unisex'] as const;
-export const PRICE_RANGES = ['25k-50k', '50k-100k', '100k+'] as const;
-export const STAMPS = ['22K', '24K'] as const;
-
-// Placeholder images
-export const PRODUCT_IMAGES = [
-  'https://picsum.photos/300/300?random=1',
-  'https://picsum.photos/300/300?random=2',
-  'https://picsum.photos/300/300?random=3',
-  'https://picsum.photos/300/300?random=4',
-  'https://picsum.photos/300/300?random=5',
+export const CATEGORIES = ['Diamond Jewellery', 'Gold Jewellery'] as const;
+export const SUB_CATEGORIES = [
+  'Diamond Pendant Set',
+  'Diamond Ladies Ring',
+  'Cocktail Ring',
+  'Ladies Ring'
 ] as const;
+export const GENDERS = ['Ladies', 'Gents', 'Unisex'] as const;
+export const PRICE_RANGES = ['0-50k', '50k-100k', '100k+'] as const;
+export const STAMPS = ['14', '18', '22', '24'] as const;
 
 // Filter categories with their options
 export const FILTER_CATEGORIES = [
   {
-    id: 'subCategory',
+    id: 'category',
     label: 'Category',
-    options: SUB_CATEGORIES.map(item => ({
-      id: item.toLowerCase(),
+    options: CATEGORIES.map(item => ({
+      id: item.toLowerCase().replace(' ', '-'),
       label: item,
-      category: 'subCategory' as const,
+      value: item,
+      category: 'category' as const,
     })),
   },
   {
-    id: 'style',
-    label: 'Style',
-    options: STYLES.map(item => ({
-      id: item.toLowerCase(),
+    id: 'subCategory',
+    label: 'Sub Category',
+    options: SUB_CATEGORIES.map(item => ({
+      id: item.toLowerCase().replace(' ', '-'),
       label: item,
-      category: 'style' as const,
+      value: item,
+      category: 'subCategory' as const,
     })),
   },
   {
@@ -40,6 +38,7 @@ export const FILTER_CATEGORIES = [
     options: GENDERS.map(item => ({
       id: item.toLowerCase(),
       label: item,
+      value: item,
       category: 'gender' as const,
     })),
   },
@@ -48,32 +47,73 @@ export const FILTER_CATEGORIES = [
     label: 'Price Range',
     options: PRICE_RANGES.map(item => ({
       id: item.toLowerCase(),
-      label: item,
+      label: `₹${item}`,
+      value: item,
       category: 'priceRange' as const,
     })),
   },
   {
     id: 'stamp',
-    label: 'Stamp',
+    label: 'Gold Stamp',
     options: STAMPS.map(item => ({
       id: item.toLowerCase(),
-      label: item,
+      label: `${item}K`,
+      value: item,
       category: 'stamp' as const,
     })),
+  },
+  {
+    id: 'stones',
+    label: 'Stones',
+    options: [
+      {
+        id: 'colored-stones',
+        label: 'Colored Stones',
+        value: 'true',
+        category: 'stones' as const,
+      },
+      {
+        id: 'diamonds',
+        label: 'Diamonds',
+        value: 'true',
+        category: 'stones' as const,
+      }
+    ],
   },
 ] as const;
 
 // Popular filters for quick access
 export const POPULAR_FILTERS = [
-  { id: 'women', label: 'Women', category: 'gender' as const },
-  { id: 'traditional', label: 'Traditional', category: 'style' as const },
-  { id: '22k', label: '22K', category: 'stamp' as const },
-  { id: '25k-50k', label: '₹25,000-₹50,000', category: 'priceRange' as const },
+  {
+    id: 'diamond-jewellery',
+    label: 'Diamond Jewellery',
+    value: 'Diamond Jewellery',
+    category: 'category' as const
+  },
+  {
+    id: 'ladies',
+    label: 'Ladies',
+    value: 'Ladies',
+    category: 'gender' as const
+  },
+  {
+    id: '14k',
+    label: '14K',
+    value: '14',
+    category: 'stamp' as const
+  },
+  {
+    id: '0-50k',
+    label: '₹0-₹50,000',
+    value: '0-50k',
+    category: 'priceRange' as const
+  },
 ] as const;
 
 // Sort options
 export const SORT_OPTIONS = [
   { value: 'priceLowToHigh', label: 'Price Low to High' },
+  { value: 'priceHighToLow', label: 'Price High to Low' },
   { value: 'newest', label: 'Newest First' },
   { value: 'popular', label: 'Popular' },
 ] as const;

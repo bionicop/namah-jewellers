@@ -1,33 +1,57 @@
 'use client';
 
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { type FilterOption, type SortOption, type PaginationState } from '@/app/data/types';
+import { useQueryState, type UseQueryStateOptions } from 'nuqs';
+import { type FilterOption, type Product, type ProductCategory, type ProductSubCategory } from '@/app/data/types';
 import { ProductCard } from '@/components/product-listing/product-card';
 import { ProductFilters } from '@/components/product-listing/product-filters';
 import { ProductSort } from '@/components/product-listing/product-sort';
 import { Pagination } from '@/components/product-listing/pagination';
+import { Button } from '@/components/ui/button';
 import { products } from '@/app/data/products';
-import { BREAKPOINTS, ITEMS_PER_PAGE } from '@/lib/constants';
+import { ITEMS_PER_PAGE, SORT_OPTIONS } from '@/lib/constants';
+
+// Type definitions for better type safety
+type SortOption = 'priceLowToHigh' | 'priceHighToLow' | 'newest' | 'popular';
+type FilterCategory = 'category' | 'subCategory' | 'gender' | 'stamp' | 'priceRange' | 'stones';
 
 // Memoized ProductCard wrapper for better performance
 const MemoizedProductCard = React.memo(ProductCard);
 
-export default function Home() {
-  // Media query for responsive design
-  const isMobile = useMediaQuery({ maxWidth: BREAKPOINTS.mobile });
-
-  // State management
-  const [activeFilters, setActiveFilters] = React.useState<FilterOption[]>([]);
-  const [sortBy, setSortBy] = React.useState<SortOption>('popular');
-  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    currentPage: 1,
-    itemsPerPage: ITEMS_PER_PAGE,
-    totalItems: products.length,
+/**
+ * Buy page component for displaying and filtering products
+ * Handles product filtering, sorting, and pagination with URL state management
+ */
+export default function Buy(): React.ReactElement {
+  // URL state management with nuqs
+  const [activeFilters, setActiveFilters] = useQueryState<FilterOption[]>('filters', {
+    parse: (value): FilterOption[] => {
+      try {
+        return JSON.parse(decodeURIComponent(value));
+      } catch {
+        return [];
+      }
+    },
+    serialize: (value) => encodeURIComponent(JSON.stringify(value)),
+    defaultValue: [],
   });
 
-  // Memoized handlers
+  const [sortBy, setSortBy] = useQueryState<SortOption>('sort', {
+    parse: (value): SortOption => {
+      return value as SortOption;
+    },
+    serialize: (value) => value,
+    defaultValue: SORT_OPTIONS[0].value as SortOption,
+  });
+
+  const [page, setPage] = useQueryState('page', {
+    defaultValue: '1',
+  });
+
+  // Local state for mobile filter drawer
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+
+  // Filter handlers
   const handleFilterChange = React.useCallback((filter: FilterOption) => {
     setActiveFilters(prev => {
       const exists = prev.some(f => f.id === filter.id);
@@ -36,25 +60,63 @@ export default function Home() {
       }
       return [...prev, filter];
     });
-    setPagination(prev => ({ ...prev, currentPage: 1 }));
-  }, []);
+    setPage('1');
+  }, [setActiveFilters, setPage]);
 
   const handleFilterRemove = React.useCallback((filterId: string) => {
     setActiveFilters(prev => prev.filter(f => f.id !== filterId));
-    setPagination(prev => ({ ...prev, currentPage: 1 }));
-  }, []);
+    setPage('1');
+  }, [setActiveFilters, setPage]);
 
   const handleClearFilters = React.useCallback(() => {
     setActiveFilters([]);
-    setPagination(prev => ({ ...prev, currentPage: 1 }));
-  }, []);
+    setPage('1');
+  }, [setActiveFilters, setPage]);
 
   const handleSortChange = React.useCallback((value: SortOption) => {
     setSortBy(value);
-  }, []);
+  }, [setSortBy]);
 
-  const handlePageChange = React.useCallback((page: number) => {
-    setPagination(prev => ({ ...prev, currentPage: page }));
+  const handlePageChange = React.useCallback((newPage: number) => {
+    setPage(newPage.toString());
+  }, [setPage]);
+
+  // Product filtering logic
+  const applyFilter = React.useCallback((product: Product, filter: FilterOption): boolean => {
+    switch (filter.category as FilterCategory) {
+      case 'category':
+        return product.itemCategory === filter.value;
+      case 'subCategory':
+        return product.itemSubCategory === filter.value;
+      case 'gender':
+        return product.gender === filter.value;
+      case 'stamp':
+        return product.stamp === filter.value;
+      case 'priceRange':
+        if (filter.value.includes('-')) {
+          const [minStr, maxStr] = filter.value.split('-');
+          const min = parseInt(minStr.replace(/\D/g, ''), 10);
+          const max = maxStr ? parseInt(maxStr.replace(/\D/g, ''), 10) : Number.MAX_SAFE_INTEGER;
+          return product.itemMRP >= min && product.itemMRP <= max;
+        }
+        // Legacy price range handling
+        switch (filter.value) {
+          case '0-50k':
+            return product.itemMRP < 50000;
+          case '50k-100k':
+            return product.itemMRP >= 50000 && product.itemMRP <= 100000;
+          case '100k+':
+            return product.itemMRP > 100000;
+          default:
+            return true;
+        }
+      case 'stones':
+        return filter.id === 'colored-stones'
+          ? product.coloredStonePresent
+          : product.diamondWeight > 0;
+      default:
+        return true;
+    }
   }, []);
 
   // Memoized filter and sort computation
@@ -63,67 +125,51 @@ export default function Home() {
 
     // Apply filters
     if (activeFilters.length > 0) {
-      result = result.filter(product => {
-        return activeFilters.every(filter => {
-          switch (filter.category) {
-            case 'subCategory':
-              return product.subCategory === filter.label;
-            case 'style':
-              return product.style === filter.label;
-            case 'gender':
-              return product.gender === filter.label;
-            case 'stamp':
-              return product.stamp === filter.label;
-            case 'priceRange':
-              const [min, max] = filter.label
-                .replace('₹', '')
-                .split('-')
-                .map(p => parseInt(p.replace(/,/g, ''), 10));
-              return product.price >= min && (!max || product.price <= max);
-            default:
-              return true;
-          }
-        });
-      });
+      result = result.filter(product =>
+        activeFilters.every(filter => applyFilter(product, filter))
+      );
     }
 
     // Apply sorting
     return result.sort((a, b) => {
       switch (sortBy) {
         case 'priceLowToHigh':
-          return a.price - b.price;
+          return a.itemMRP - b.itemMRP;
+        case 'priceHighToLow':
+          return b.itemMRP - a.itemMRP;
         case 'newest':
-          return b.id - a.id;
+          return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
         case 'popular':
         default:
           return 0;
       }
     });
-  }, [products, activeFilters, sortBy]);
+  }, [products, activeFilters, sortBy, applyFilter]);
 
   // Memoized pagination calculation
   const { paginatedProducts, totalPages } = React.useMemo(() => {
+    const currentPage = parseInt(page, 10);
     const total = Math.ceil(filteredAndSortedProducts.length / ITEMS_PER_PAGE);
     const items = filteredAndSortedProducts.slice(
-      (pagination.currentPage - 1) * ITEMS_PER_PAGE,
-      pagination.currentPage * ITEMS_PER_PAGE
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
     );
     return { paginatedProducts: items, totalPages: total };
-  }, [filteredAndSortedProducts, pagination.currentPage]);
+  }, [filteredAndSortedProducts, page]);
 
-  // Memoized result count for header
+  // Memoized result count
   const resultCount = React.useMemo(() => {
     const count = filteredAndSortedProducts.length;
     return `${count} ${count === 1 ? 'result' : 'results'}`;
   }, [filteredAndSortedProducts.length]);
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px]">
+    <main className="min-h-screen bg-white w-full flex flex-col">
+      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px] w-full flex-1">
         {/* Header */}
         <div className="pt-6 pb-4">
           <h1 className="text-2xl sm:text-3xl font-serif text-gray-800 tracking-[-0.02em]">
-            Gold
+            Fine Jewelry
             <span className="text-base font-sans text-gray-500 ml-2">
               {resultCount}
             </span>
@@ -138,21 +184,23 @@ export default function Home() {
               onFilterChange={handleFilterChange}
               onFilterRemove={handleFilterRemove}
               onClearFilters={handleClearFilters}
-              isMobile={isMobile}
+              isMobile={window.matchMedia(`(max-width: 768px)`).matches}
               isOpen={isFilterOpen}
               onOpenChange={setIsFilterOpen}
             />
             <ProductSort
               value={sortBy}
               onValueChange={handleSortChange}
-              isMobile={isMobile}
+              isMobile={window.matchMedia(`(max-width: 768px)`).matches}
             />
           </div>
         </div>
 
-        {/* Product grid */}
-        <div className="py-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+        {/* Main content area */}
+        <div className="py-6 w-full flex flex-col">
+          <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 w-full ${
+            filteredAndSortedProducts.length === 0 ? 'hidden' : ''
+          }`}>
             {paginatedProducts.map((product) => (
               <MemoizedProductCard
                 key={product.id}
@@ -164,18 +212,34 @@ export default function Home() {
 
           {/* Empty state */}
           {filteredAndSortedProducts.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500">No products found matching your criteria</p>
+            <div className="w-full py-12">
+              <div className="max-w-md mx-auto text-center">
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No products found
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  We couldn't find any products matching your selected filters. Try adjusting your filters or start fresh.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={handleClearFilters}
+                  className="mx-auto"
+                >
+                  Clear all filters
+                </Button>
+              </div>
             </div>
           )}
 
           {/* Pagination */}
           {filteredAndSortedProducts.length > 0 && totalPages > 1 && (
-            <Pagination
-              currentPage={pagination.currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+            <div className="mt-8">
+              <Pagination
+                currentPage={parseInt(page, 10)}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
           )}
         </div>
       </div>
