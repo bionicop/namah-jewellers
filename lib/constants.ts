@@ -1,3 +1,40 @@
+// Company Information
+export const COMPANY_INFO = {
+  name: 'NAMAH Jewellers',
+  tagline: 'Where artistry and elegance come together',
+  description: 'Create jewellery that transcends time with traditional craftsmanship and modern innovation.',
+
+  contact: {
+    phone: '+91 83685 82277',
+    whatsapp: 'https://wa.me/918368582277',
+    email: 'info@namahjewellers.com',
+    address: 'Karol Bagh, New Delhi, India'
+  },
+
+  social: {
+    instagram: 'https://instagram.com/namahjewellers',
+    facebook: 'https://facebook.com/jewelsbynamah',
+    twitter: 'https://twitter.com/namahjewellers'
+  },
+
+  businessHours: {
+    weekdays: 'Monday - Saturday',
+    hours: '10:00 AM - 8:00 PM',
+    closed: 'Sunday'
+  }
+} as const;
+
+// Form Constants
+export const INQUIRY_TYPES = [
+  { id: 'general', label: 'General Inquiry', icon: '💬' },
+  { id: 'product', label: 'Product Inquiry', icon: '💍' },
+  { id: 'custom', label: 'Custom Design', icon: '✨' },
+  { id: 'repair', label: 'Repair Service', icon: '🔧' },
+  { id: 'consultation', label: 'Consultation', icon: '👥' },
+  { id: 'order', label: 'Order Status', icon: '📦' }
+] as const
+
+
 // Basic data arrays
 export const CATEGORIES = ['Diamond Jewellery', 'Gold Jewellery'] as const;
 export const SUB_CATEGORIES = [
