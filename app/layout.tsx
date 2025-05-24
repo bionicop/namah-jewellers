@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import "./globals.css";
 import { Navbar } from "@/components/navigation/Navbar";
-import { Footer } from "@/components/navigation/Footer";
 import { COMPANY_INFO } from '@/lib/constants'
 import Link from 'next/link';
 
@@ -30,6 +29,12 @@ const FOOTER_LINKS = {
     { href: '/privacy', label: 'Privacy Policy' }
   ],
   products: [
+  { href: '/', label: 'Rings' },
+  { href: '/', label: 'Necklaces' },
+  { href: '/', label: 'Earrings' },
+  { href: '/', label: 'Bracelets' },
+  { href: '/', label: 'Pendants' },
+  { href: '/', label: 'Bangles' }
   ]
 };
 
