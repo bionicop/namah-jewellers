@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import { products } from "@/app/data/products";
 import { type Metadata, type ResolvingMetadata } from "next";
+import ProductFeatures from "@/components/product-page/ProductFeatures"
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import AppointmentDialog from "@/components/product-page/AppointmentDialog";
 
 interface Props {
   params: { slug: string };
@@ -57,7 +61,7 @@ export default function ProductPage({ params: { slug } }: Props) {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px] py-8">
+      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px]  ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Product Images */}
           <div className="relative aspect-square rounded-lg overflow-hidden">
@@ -81,7 +85,7 @@ export default function ProductPage({ params: { slug } }: Props) {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="border-4 space-y-4 p-2 sm:p-4 md:p-6 lg:p-8 ">
             <div>
               <h1 className="text-3xl font-serif text-gray-900">
                 {product.itemName}
@@ -91,7 +95,7 @@ export default function ProductPage({ params: { slug } }: Props) {
               </p>
             </div>
 
-            <div className="border-t border-b py-4">
+            <div className="border-t border-b p-2 sm:p-3 md:p-4 lg:p-5 ">
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
                   <p className="text-sm text-gray-500">Price</p>
@@ -107,49 +111,23 @@ export default function ProductPage({ params: { slug } }: Props) {
             </div>
 
             {/* Product Details */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-medium">Product Details</h2>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-500">Style</p>
-                  <p>{product.byStyle || 'Classic'}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Gender</p>
-                  <p>{product.gender}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Gold Stamp</p>
-                  <p>{product.stamp}K</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Net Weight</p>
-                  <p>{product.netWeight}g</p>
-                </div>
-                {product.diamondWeight > 0 && (
-                  <div>
-                    <p className="text-gray-500">Diamond Weight</p>
-                    <p>{product.diamondWeight}ct</p>
-                  </div>
-                )}
-                {product.coloredStoneWeight > 0 && (
-                  <div>
-                    <p className="text-gray-500">Colored Stone Weight</p>
-                    <p>{product.coloredStoneWeight}ct</p>
-                  </div>
-                )}
+            <div className="p-2 sm:p-3 md:p-4 lg:p-5 ">
+              <div className="grid grid-cols-2 gap-4 text-sm px-2">
+                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl '}><span className={''}><Image src="/animated-logos/coin.gif" width={10} height={10} alt='logo' className={'size-10 '}></Image></span>{product.stamp} karat</div>
+                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl '}><span className={''}><Image src="/animated-logos/diamond.gif" width={10} height={10} alt='logo' className={'size-10 '}></Image></span>{product.stamp} ct</div>
               </div>
             </div>
 
-            {/* Description */}
-            {product.itemDescription && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-medium">Description</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  {product.itemDescription}
-                </p>
-              </div>
-            )}
+            <div>
+              <h2 className="text-lg font-medium">Product Details</h2>
+              <ProductFeatures params={{
+                slug: slug
+              }} />
+            </div>
+
+            <div className = {'flex flex-row justify-evenly '}>
+              <AppointmentDialog />
+            </div>
           </div>
         </div>
       </div>

@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react';
 import ImageCarousel from '@/components/product-page/ImageCarousel';
 import AppointmentForm from '@/components/product-page/AppointmentForm';
+import ProductFeatures from '@/components/product-page/ProductFeatures';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
+
 import {
   ResizablePanelGroup,
   ResizablePanel,
@@ -87,6 +89,28 @@ const ProductPage = () => {
     window.addEventListener('resize', checkWidth);
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
+
+      type ImageKey = 'item-1' | 'item-2' | 'item-3' | 'item-4'
+    const [activeItem, setActiveItem] = useState<ImageKey>('item-1')
+
+    const images = {
+        'item-1': {
+            image: '/charts.png',
+            alt: 'Database visualization',
+        },
+        'item-2': {
+            image: '/music.png',
+            alt: 'Security authentication',
+        },
+        'item-3': {
+            image: '/mail2.png',
+            alt: 'Identity management',
+        },
+        'item-4': {
+            image: '/payments.png',
+            alt: 'Analytics dashboard',
+        },
+    }
 
   return (
     <>

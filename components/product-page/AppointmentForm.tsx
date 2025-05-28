@@ -7,9 +7,10 @@ import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 import { DatePickerDemo } from '@/components/ui/datePicker';
 import { DialogClose } from '@/components/ui/dialog';
+import { DateTimePicker } from '../ui/dateTimePicker';
+import { Calendar } from '../ui/calendar';
 
 const AppointmentForm = () => {
-  const [selectedTime, setSelectedTime] = useState('10:00');
 
   return (
     <div className="flex flex-col-reverse md:flex-row-reverse text-black rounded-lg overflow-hidden shadow-lg max-w-6xl w-full mx-auto bg-white">
@@ -38,20 +39,9 @@ const AppointmentForm = () => {
           />
         </div>
 
-        <div className="w-full my-2 space-y-1 ">
+        <div className="text-md sm:text-lg md:text-xl my-2 space-y-1 ">
           <Label htmlFor="time" className="text-sm sm:text-base md:text-lg">Appointment Time</Label>
-          <input
-            id="time"
-            type="time"
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className="w-full rounded-md border border-gray-300 bg-white text-sm text-gray-700 px-3 py-2"
-          />
-        </div>
-
-        <div className="w-full my-2 space-y-1 ">
-          <Label htmlFor="date" className="text-sm sm:text-base md:text-lg">Appointment Day</Label>
-            <DatePickerDemo />
+          <DateTimePicker/>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-evenly">
