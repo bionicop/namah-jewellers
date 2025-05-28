@@ -46,7 +46,7 @@ export default function Home() {
               size="lg"
               className="bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
-              <Link href="/product" className="flex items-center gap-2">
+              <Link href="/buy" className="flex items-center gap-2">
                 Explore Collections
                 <ArrowRight className="h-5 w-5" />
               </Link>
