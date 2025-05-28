@@ -3,8 +3,8 @@ import { products } from "@/app/data/products";
 import { type Metadata, type ResolvingMetadata } from "next";
 import ProductFeatures from "@/components/product-page/ProductFeatures"
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import AppointmentDialog from "@/components/product-page/AppointmentDialog";
+import ImageCarousel from "@/components/product-page/ImageCarousel";
 
 interface Props {
   params: { slug: string };
@@ -59,33 +59,22 @@ export default function ProductPage({ params: { slug } }: Props) {
     notFound();
   }
 
+  const carouselImages = product.itemPhotos.map((photo, index) => ({
+    src: photo.src,
+    alt: `${product.itemName} - View ${index + 1}`
+  }));
+
   return (
     <main className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px]  ">
+      <div className="container mx-auto px-4 sm:px-6 max-w-[1440px]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Product Images */}
           <div className="relative aspect-square rounded-lg overflow-hidden">
-            <div className="grid grid-cols-2 gap-2 h-full">
-              {product.itemPhotos.map((photo, index) => (
-                <div
-                  key={index}
-                  className={`relative ${
-                    index === 0 ? 'col-span-2 row-span-2' : ''
-                  }`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.src}
-                    alt={`${product.itemName} - View ${index + 1}`}
-                    className="object-cover w-full h-full rounded-lg"
-                  />
-                </div>
-              ))}
-            </div>
+            <ImageCarousel images={carouselImages} />
           </div>
 
           {/* Product Info */}
-          <div className="border-4 space-y-4 p-2 sm:p-4 md:p-6 lg:p-8 ">
+          <div className="space-y-4 p-2 sm:p-4 md:p-6 lg:p-8">
             <div>
               <h1 className="text-3xl font-serif text-gray-900">
                 {product.itemName}
@@ -95,7 +84,7 @@ export default function ProductPage({ params: { slug } }: Props) {
               </p>
             </div>
 
-            <div className="border-t border-b p-2 sm:p-3 md:p-4 lg:p-5 ">
+            <div className="border-t border-b p-2 sm:p-3 md:p-4 lg:p-5">
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
                   <p className="text-sm text-gray-500">Price</p>
@@ -111,10 +100,16 @@ export default function ProductPage({ params: { slug } }: Props) {
             </div>
 
             {/* Product Details */}
-            <div className="p-2 sm:p-3 md:p-4 lg:p-5 ">
+            <div className="p-2 sm:p-3 md:p-4 lg:p-5">
               <div className="grid grid-cols-2 gap-4 text-sm px-2">
-                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl '}><span className={''}><Image src="/animated-logos/coin.gif" width={10} height={10} alt='logo' className={'size-10 '}></Image></span>{product.stamp} karat</div>
-                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl '}><span className={''}><Image src="/animated-logos/diamond.gif" width={10} height={10} alt='logo' className={'size-10 '}></Image></span>{product.stamp} ct</div>
+                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl'}>
+                  <span><Image src="/animated-logos/coin.gif" width={10} height={10} alt='logo' className={'size-10'} /></span>
+                  {product.stamp} karat
+                </div>
+                <div className={'flex flex-row justify-center place-items-center text-md sm:text-lg md:text-xl lg:text-2xl'}>
+                  <span><Image src="/animated-logos/diamond.gif" width={10} height={10} alt='logo' className={'size-10'} /></span>
+                  {product.diamondWeight} ct
+                </div>
               </div>
             </div>
 
@@ -125,7 +120,7 @@ export default function ProductPage({ params: { slug } }: Props) {
               }} />
             </div>
 
-            <div className = {'flex flex-row justify-evenly '}>
+            <div className={'flex flex-row justify-evenly'}>
               <AppointmentDialog />
             </div>
           </div>

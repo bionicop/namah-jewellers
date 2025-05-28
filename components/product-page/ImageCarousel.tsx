@@ -9,26 +9,29 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
-const images = [
-  '/jewellery_images/jewellery1.jpeg',
-  '/jewellery_images/jewellery2.jpeg',
-  '/jewellery_images/jewellery3.jpeg',
-];
+interface ImageCarouselProps {
+  images: {
+    src: string;
+    alt: string;
+  }[];
+}
 
-export default function ImageCarousel() {
+export default function ImageCarousel({ images }: ImageCarouselProps) {
   return (
-    <Carousel className="w-full max-w-full rounded-md overflow-hidden relative ">
+    <Carousel className="w-full max-w-full rounded-md overflow-hidden relative">
       <CarouselContent>
-        {images.map((src, index) => (
-          <CarouselItem key={index} className="flex items-center justify-center ">
-            <Image
-              src={src}
-              alt={`Jewellery ${index + 1}`}
-              width={600}
-              height={400}
-              className="sm:size-7/12 md:size-9/12 lg:size-11/12 "
-              priority={index === 0}
-            />
+        {images.map((image, index) => (
+          <CarouselItem key={index} className="flex items-center justify-center">
+            <div className="relative w-full aspect-square">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-cover"
+                priority={index === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>
