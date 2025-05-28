@@ -55,13 +55,13 @@ export default function AboutPage() {
 
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div className="relative">
-              <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-xl">
+              <div className="aspect-square relative rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/jewellery_images/jewellery1.jpeg"
-                  className="object-cover w-full h-full"
+                  src="/aboutus-images/shiva.jpg"
+                  className="object-cover w-full h-[750]"
                   alt="NAMAH Jewellers Craftsmanship"
                   width={600}
-                  height={750}
+                  height={700}
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
@@ -137,13 +137,13 @@ export default function AboutPage() {
             </div>
 
             <div className="relative lg:order-2">
-              <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-xl">
+              <div className="aspect-square relative rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/jewellery_images/jewellery2.jpeg"
-                  className="object-cover w-full h-full"
+                  src="/aboutus-images/history.jpg"
+                  className="object-cover size-full "
                   alt="NAMAH Jewellers Heritage"
-                  width={600}
-                  height={750}
+                  width={1920}
+                  height={1080}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
               </div>
