@@ -13,16 +13,16 @@ export const products: Product[] = [
     status: "PUBLISHED",
     tagNumber: "PS-NJ-876",
     itemName: "Fashioner Pendant Set",
-    thumbnail: "/jewellery_images/jewellery1.jpeg",
+    thumbnail: "/jewellery_images/Fashioner-pendant-set-1.webp",
     itemPhotos: [
       {
         title: "Fashioner Pendant Set",
-        src: "/jewellery_images/jewellery1.jpeg",
+        src: "/jewellery_images/Fashioner-pendant-set-1.webp",
         type: "image"
       },
       {
         title: "Fashioner Pendant Set Secondary",
-        src: "/jewellery_images/jewellery2.jpeg",
+        src: "/jewellery_images/Fashioner-pendant-set-2.webp",
         type: "image"
       }
     ],
@@ -63,16 +63,16 @@ export const products: Product[] = [
     status: "PUBLISHED",
     tagNumber: "LR-NJ-3069",
     itemName: "Pure Essence Diamond Ring",
-    thumbnail: "/jewellery_images/jewellery2.jpeg",
+    thumbnail: "/jewellery_images/Diamond-ring-1.jpg",
     itemPhotos: [
       {
         title: "Pure Essence Diamond Ring",
-        src: "/jewellery_images/jewellery2.jpeg",
+        src: "/jewellery_images/Diamond-ring-1.jpg",
         type: "image"
       },
       {
         title: "Pure Essence Diamond Ring Secondary",
-        src: "/jewellery_images/jewellery3.jpeg",
+        src: "/jewellery_images/Diamond-ring-2.jpg",
         type: "image"
       }
     ],
@@ -113,16 +113,16 @@ export const products: Product[] = [
     status: "PUBLISHED",
     tagNumber: "LR-NJ-6506",
     itemName: "Vintage Engagement Ring",
-    thumbnail: "/jewellery_images/jewellery3.jpeg",
+    thumbnail: "/jewellery_images/Engagement-ring-1.webp",
     itemPhotos: [
       {
         title: "Vintage Engagement Ring",
-        src: "/jewellery_images/jewellery3.jpeg",
+        src: "/jewellery_images/Engagement-ring-1.webp",
         type: "image"
       },
       {
         title: "Vintage Engagement Ring Secondary",
-        src: "/jewellery_images/jewellery1.jpeg",
+        src: "/jewellery_images/Engagement-ring-2.webp",
         type: "image"
       }
     ],
@@ -163,16 +163,16 @@ export const products: Product[] = [
     status: "PUBLISHED",
     tagNumber: "LR-NJ-6687",
     itemName: "Dual-Ton Diamond Band",
-    thumbnail: "/jewellery_images/jewellery1.jpeg",
+    thumbnail: "/jewellery_images/Diamond-band-1.webp",
     itemPhotos: [
       {
         title: "Dual-Ton Diamond Band",
-        src: "/jewellery_images/jewellery1.jpeg",
+        src: "/jewellery_images/Diamond-band-1.webp",
         type: "image"
       },
       {
         title: "Dual-Ton Diamond Band Secondary",
-        src: "/jewellery_images/jewellery2.jpeg",
+        src: "/jewellery_images/Diamond-band-2.webp",
         type: "image"
       }
     ],
@@ -213,16 +213,16 @@ export const products: Product[] = [
     status: "PUBLISHED",
     tagNumber: "LR-NJ-6434",
     itemName: "Eye-Catching Fancy Ring",
-    thumbnail: "/jewellery_images/jewellery3.jpeg",
+    thumbnail: "/jewellery_images/Fancy-ring-1.jpg",
     itemPhotos: [
       {
         title: "Eye-Catching Fancy Ring",
-        src: "/jewellery_images/jewellery3.jpeg",
+        src: "/jewellery_images/Fancy-ring-1.jpg",
         type: "image"
       },
       {
         title: "Eye-Catching Fancy Ring Secondary",
-        src: "/jewellery_images/jewellery1.jpeg",
+        src: "/jewellery_images/Fancy-ring-2.jpg",
         type: "image"
       }
     ],
