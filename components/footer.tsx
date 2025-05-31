@@ -20,12 +20,12 @@ const FOOTER_LINKS = {
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-secondary text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent mb-4">
+            <div className="text-2xl font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent mb-4">
               {COMPANY_INFO.name}
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
@@ -40,13 +40,13 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-amber-400">Company</h3>
+            <h3 className="text-lg font-semibold mb-4 text-primary">Company</h3>
             <ul className="space-y-2">
               {FOOTER_LINKS.company.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-300 hover:text-amber-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-primary transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -57,13 +57,13 @@ export function Footer() {
 
           {/* Product Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-amber-400">Collections</h3>
+            <h3 className="text-lg font-semibold mb-4 text-primary">Collections</h3>
             <ul className="space-y-2">
               {FOOTER_LINKS.products.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-300 hover:text-amber-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-primary transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -80,7 +80,7 @@ export function Footer() {
               <Link
                 href={COMPANY_INFO.social.instagram}
                 target="_blank"
-                className="text-gray-400 hover:text-amber-400 transition-colors duration-200"
+                className="text-gray-400 hover:text-primary transition-colors duration-200"
               >
                 <span className="sr-only">Instagram</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -90,7 +90,7 @@ export function Footer() {
               <Link
                 href={COMPANY_INFO.social.facebook}
                 target="_blank"
-                className="text-gray-400 hover:text-amber-400 transition-colors duration-200"
+                className="text-gray-400 hover:text-primary transition-colors duration-200"
               >
                 <span className="sr-only">Facebook</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

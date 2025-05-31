@@ -13,7 +13,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
 
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50/30">
+      <body className="min-h-screen bg-gradient-to-br from-slate-50 to-primary/5">
         <NuqsAdapter>
           <Navbar />
           <main>

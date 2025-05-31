@@ -5,51 +5,65 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filter as FilterIcon, ChevronDown, ChevronUp } from "lucide-react";
-import { type FilterOption, type ProductCategory, type ProductSubCategory } from "@/app/data/types";
-import { FILTER_CATEGORIES } from "@/lib/constants";
+import { useFilters } from '@/hooks/use-filters';
 import { PriceRangeSlider } from "@/components/ui/price-range-slider";
 import { PriceButtons } from "@/components/ui/price-buttons";
 
-// Type definitions for better type safety
+/**
+ * Filter Section Types
+ * These types define the structure of filter sections and their options.
+ */
+
 type FilterSectionId = 'category' | 'priceRange' | 'gender' | 'stamp' | 'stones' | 'subCategory';
 type PriceRangeValue = [number, number];
 
 interface FilterSectionProps {
-  category: typeof FILTER_CATEGORIES[number];
+  config: any;
+  options: any[];
   isExpanded: boolean;
-  activeFilters: FilterOption[];
+  activeValues: any;
   onToggle: (sectionId: FilterSectionId) => void;
-  onFilterChange: (filter: FilterOption) => void;
+  onUpdate: (values: any) => void;
 }
 
 interface ProductFiltersProps {
-  activeFilters: FilterOption[];
-  onFilterChange: (filter: FilterOption) => void;
-  onFilterRemove: (filterId: string) => void;
-  onClearFilters: () => void;
   isMobile?: boolean;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  className?: string;
 }
 
 /**
- * Renders an individual filter section with a collapsible header and checkboxes
+ * Individual Filter Section - Clean implementation
  */
 const FilterSection: React.FC<FilterSectionProps> = React.memo(({
-  category,
+  config,
+  options,
   isExpanded,
-  activeFilters,
+  activeValues,
   onToggle,
-  onFilterChange
+  onUpdate
 }) => {
+  const currentValues = (activeValues as string[]) || [];
+
+  const handleCheckboxChange = (optionValue: string, checked: boolean) => {
+    if (checked) {
+      const newValues = [...currentValues, optionValue];
+      onUpdate(newValues);
+    } else {
+      const newValues = currentValues.filter(v => v !== optionValue);
+      onUpdate(newValues.length > 0 ? newValues : null);
+    }
+  };
+
   return (
     <div className="border-b border-gray-100 last:border-0">
       <button
-        onClick={() => onToggle(category.id as FilterSectionId)}
+        onClick={() => onToggle(config.id as FilterSectionId)}
         className="flex items-center justify-between w-full text-left py-3"
       >
         <h3 className="font-medium text-base text-gray-900">
-          {category.label}
+          {config.label}
         </h3>
         {isExpanded ? (
           <ChevronUp className="h-4 w-4 text-gray-500" />
@@ -65,19 +79,21 @@ const FilterSection: React.FC<FilterSectionProps> = React.memo(({
         }`}
       >
         <div className="space-y-3 py-2">
-          {category.options.map((filter) => (
+          {options.map((option) => (
             <label
-              key={filter.id}
+              key={option.id}
               className="flex items-center space-x-2 cursor-pointer"
             >
               <Checkbox
-                id={filter.id}
-                checked={activeFilters.some((f) => f.value === filter.value && f.category === filter.category)}
-                onCheckedChange={() => onFilterChange(filter)}
+                id={option.id}
+                checked={currentValues.includes(option.value)}
+                onCheckedChange={(checked) =>
+                  handleCheckboxChange(option.value, checked === true)
+                }
                 className="rounded-sm"
               />
               <span className="text-sm text-gray-600">
-                {filter.label}
+                {option.label}
               </span>
             </label>
           ))}
@@ -90,33 +106,41 @@ const FilterSection: React.FC<FilterSectionProps> = React.memo(({
 FilterSection.displayName = 'FilterSection';
 
 /**
- * Product filters component that handles both mobile and desktop views
- * Manages filter state and provides a UI for filter selection
+ * Main Product Filters
  */
 export function ProductFilters({
-  activeFilters,
-  onFilterChange,
-  onFilterRemove,
-  onClearFilters,
   isMobile = false,
   isOpen = false,
   onOpenChange,
+  className = ''
 }: ProductFiltersProps): React.ReactElement {
-  // State management
+  const {
+    filterState,
+    enabledConfigs,
+    filterOptions,
+    updateFilter,
+    clearAllFilters,
+    activeFilters
+  } = useFilters();
+
+  // State for expanded sections and price range
   const [expandedSections, setExpandedSections] = React.useState<Set<FilterSectionId>>(
     new Set(['category', 'priceRange', 'gender'])
   );
 
   const [priceRange, setPriceRange] = React.useState<PriceRangeValue>([0, 200000]);
 
-  // Effect to sync price range with active filters
+  // Sync price range with filters
   React.useEffect(() => {
-    const priceFilter = activeFilters.find(filter => filter.category === 'priceRange');
-    if (priceFilter?.value.includes('-')) {
-      const [min, max] = priceFilter.value.split('-').map(Number);
+    const currentPriceValue = filterState.priceRange;
+    if (currentPriceValue && typeof currentPriceValue === 'string' && currentPriceValue.includes('-')) {
+      const [min, max] = currentPriceValue.split('-').map(Number);
       setPriceRange([min, max]);
+    } else {
+      // Reset to default range when filter is cleared
+      setPriceRange([0, 200000]);
     }
-  }, [activeFilters]);
+  }, [filterState.priceRange]);
 
   // Handlers
   const toggleSection = React.useCallback((sectionId: FilterSectionId) => {
@@ -133,24 +157,13 @@ export function ProductFilters({
 
   const handlePriceRangeChange = React.useCallback((value: PriceRangeValue) => {
     setPriceRange(value);
-
-    // Remove any existing price range filter
-    const existingPriceFilters = activeFilters.filter(f => f.category === 'priceRange');
-    existingPriceFilters.forEach(filter => onFilterRemove(filter.id));
-
-    // Create and apply a new price range filter
-    const priceFilter: FilterOption = {
-      id: `price-range-${value[0]}-${value[1]}`,
-      label: `₹${value[0].toLocaleString()} - ₹${value[1].toLocaleString()}`,
-      value: `${value[0]}-${value[1]}`,
-      category: 'priceRange'
-    };
-    onFilterChange(priceFilter);
-  }, [onFilterChange, onFilterRemove, activeFilters]);
+    updateFilter('priceRange', `${value[0]}-${value[1]}`);
+  }, [updateFilter]);
 
   const filterCount = activeFilters.length;
+  const nonPriceConfigs = enabledConfigs.filter(config => config.id !== 'priceRange');
 
-  // Memoized filter content render
+  // Filter content
   const renderFilterContent = React.useCallback(() => (
     <div className="h-full flex flex-col min-h-0 relative">
       <div className="flex-1 overflow-hidden">
@@ -175,14 +188,15 @@ export function ProductFilters({
 
           {/* Filter Categories */}
           <div className="space-y-4 py-4">
-            {FILTER_CATEGORIES.filter(cat => cat.id !== 'priceRange').map((category) => (
+            {nonPriceConfigs.map((config) => (
               <FilterSection
-                key={category.id}
-                category={category}
-                isExpanded={expandedSections.has(category.id as FilterSectionId)}
-                activeFilters={activeFilters}
+                key={config.id}
+                config={config}
+                options={filterOptions[config.id] || []}
+                isExpanded={expandedSections.has(config.id as FilterSectionId)}
+                activeValues={filterState[config.id]}
                 onToggle={toggleSection}
-                onFilterChange={onFilterChange}
+                onUpdate={(values) => updateFilter(config.id, values)}
               />
             ))}
           </div>
@@ -195,7 +209,7 @@ export function ProductFilters({
           <Button
             variant="outline"
             className="flex-1"
-            onClick={onClearFilters}
+            onClick={clearAllFilters}
           >
             Clear All
           </Button>
@@ -209,7 +223,7 @@ export function ProductFilters({
         </div>
       </div>
     </div>
-  ), [activeFilters, expandedSections, handlePriceRangeChange, onClearFilters, onFilterChange, onOpenChange, priceRange, toggleSection]);
+  ), [enabledConfigs, expandedSections, filterOptions, filterState, handlePriceRangeChange, clearAllFilters, onOpenChange, priceRange, toggleSection, updateFilter, nonPriceConfigs]);
 
   // Mobile view
   if (isMobile) {
@@ -245,7 +259,7 @@ export function ProductFilters({
 
   // Desktop view
   return (
-    <div className="flex items-center gap-3">
+    <div className={`flex items-center gap-3 ${className}`}>
       <Sheet open={isOpen} onOpenChange={onOpenChange} modal={false}>
         <Button
           variant="outline"
@@ -271,5 +285,23 @@ export function ProductFilters({
         </SheetContent>
       </Sheet>
     </div>
+  );
+}
+
+/**
+ * Mobile Product Filters - Clean wrapper
+ */
+interface MobileProductFiltersProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function MobileProductFilters({ isOpen, onClose }: MobileProductFiltersProps) {
+  return (
+    <ProductFilters
+      isMobile={true}
+      isOpen={isOpen}
+      onOpenChange={(open) => !open && onClose()}
+    />
   );
 }

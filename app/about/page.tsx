@@ -45,7 +45,7 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold lg:text-5xl xl:text-6xl bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl font-bold lg:text-5xl xl:text-6xl bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent mb-4">
               About {COMPANY_INFO.name}
             </h1>
             <p className="text-base lg:text-lg max-w-3xl mx-auto text-gray-600">
@@ -57,7 +57,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="aspect-square relative rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/aboutus-images/shiva.jpg"
+                  src="/images/about/shiva.jpg"
                   className="object-cover w-full h-[750]"
                   alt="NAMAH Jewellers Craftsmanship"
                   width={600}
@@ -76,7 +76,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <blockquote className="border-l-4 border-amber-400 pl-6 bg-amber-50/50 py-4 rounded-r-lg">
+              <blockquote className="border-l-4 border-primary pl-6 bg-primary/5 py-4 rounded-r-lg">
                 <p className="text-base lg:text-lg text-gray-600 italic">
                   "For us, jewellery is not just an ornament; it's a reflection of your most cherished moments and timeless emotions."
                 </p>
@@ -87,7 +87,7 @@ export default function AboutPage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-amber-50/30">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-primary/5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-semibold lg:text-4xl mb-4 text-gray-900">What Sets Us Apart</h2>
@@ -101,11 +101,11 @@ export default function AboutPage() {
               const IconComponent = iconMap[feature.icon as keyof typeof iconMap]
 
               return (
-                <Card key={index} className="bg-white border border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+                <Card key={index} className="bg-white border border-primary/10 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
                   <CardContent className="p-6 sm:p-8">
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <IconComponent className="w-5 h-5 text-amber-500" />
+                        <IconComponent className="w-5 h-5 text-primary" />
                         <h3 className="text-base lg:text-lg font-medium text-gray-900">{feature.title}</h3>
                       </div>
                       <p className="text-sm text-gray-600 leading-relaxed">
@@ -139,7 +139,7 @@ export default function AboutPage() {
             <div className="relative lg:order-2">
               <div className="aspect-square relative rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/aboutus-images/history.jpg"
+                  src="/images/about/history.jpg"
                   className="object-cover size-full "
                   alt="NAMAH Jewellers Heritage"
                   width={1920}

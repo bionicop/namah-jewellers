@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Search, Heart, User, Menu, X, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { generateBuyPageUrl, generateCategoryUrl } from "@/lib/navigation"
 
 interface NavItem {
   label: string
@@ -50,17 +51,17 @@ const JEWELRY_CATEGORIES: JewelryCategory[] = [
 
 const CATEGORY_ICONS = {
   "All Jewellery": (
-    <svg className="w-6 h-6 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20">
+    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
     </svg>
   ),
   "Gold Jewellery": (
-    <svg className="w-6 h-6 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20">
+    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
     </svg>
   ),
   "Diamond Jewellery": (
-    <svg className="w-6 h-6 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20">
+    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
       <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
     </svg>
   )
@@ -157,10 +158,10 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-sm font-medium text-gray-700 hover:text-[#D4AF37] relative group transition-colors"
+                  className="text-sm font-medium text-gray-700 hover:text-primary relative group transition-colors"
                 >
                   {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#D4AF37] transition-all duration-200 group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full" />
                 </Link>
               ))}
             </div>
@@ -173,7 +174,7 @@ export function Navbar() {
             </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9 relative" aria-label="Wishlist">
               <Heart className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <span className="absolute -top-1 -right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 2
               </span>
             </Button>
@@ -207,7 +208,7 @@ export function Navbar() {
                 onMouseLeave={() => setDropdown(null)}
               >
                 <button
-                  className="flex items-center px-6 py-3 text-sm font-medium text-gray-700 hover:text-[#D4AF37] hover:bg-white transition-colors"
+                  className="flex items-center px-6 py-3 text-sm font-medium text-gray-700 hover:text-primary hover:bg-white transition-colors"
                   aria-expanded={activeDropdown === category.title}
                 >
                   {category.title}
@@ -227,7 +228,7 @@ export function Navbar() {
               <div className="p-8 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   <div className="col-span-1">
-                    <h3 className="text-xl font-semibold text-[#D4AF37] mb-3">{activeDropdown}</h3>
+                    <h3 className="text-xl font-semibold text-primary mb-3">{activeDropdown}</h3>
                     <p className="text-sm text-gray-600">
                       Explore our exquisite collection of {activeDropdown.toLowerCase()}.
                     </p>
@@ -237,8 +238,8 @@ export function Navbar() {
                       {activeCategory.items.map((item) => (
                         <Link
                           key={item}
-                          href={`/category/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                          className="text-sm text-gray-600 hover:text-#D4AF37] p-3 rounded hover:bg-gray-50 transition-colors border border-gray-100 hover:border-[#D4AF37]/20"
+                          href={generateBuyPageUrl(activeDropdown, item)}
+                          className="text-sm text-gray-600 hover:text-primary p-3 rounded hover:bg-gray-50 transition-colors border border-gray-100 hover:border-primary/20"
                         >
                           {item}
                         </Link>
@@ -259,7 +260,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center text-base font-medium text-gray-700 hover:text-[#D4AF37] py-3 border-b border-gray-100 last:border-b-0 transition-all duration-200 hover:translate-x-1"
+                  className="flex items-center text-base font-medium text-gray-700 hover:text-primary py-3 border-b border-gray-100 last:border-b-0 transition-all duration-200 hover:translate-x-1"
                   onClick={closeMobile}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
@@ -281,11 +282,11 @@ export function Navbar() {
             {JEWELRY_CATEGORIES.map((category) => (
               <Link
                 key={category.title}
-                href={`/category/${category.title.toLowerCase().replace(/\s+/g, '-')}`}
+                href={generateCategoryUrl(category.title)}
                 className="flex-shrink-0 flex flex-col items-center space-y-2 group min-w-[80px]"
                 aria-label={`Browse ${category.title}`}
               >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8941F] flex items-center justify-center shadow-lg group-active:scale-95 transition-all duration-300 group-hover:scale-105 mx-auto">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary flex items-center justify-center shadow-lg group-active:scale-95 transition-all duration-300 group-hover:scale-105 mx-auto">
                   <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
                     {CATEGORY_ICONS[category.title as keyof typeof CATEGORY_ICONS]}
                   </div>

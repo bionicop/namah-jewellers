@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -18,7 +19,14 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({ images }: ImageCarouselProps) {
   return (
-    <Carousel className="w-full max-w-full rounded-md overflow-hidden relative">
+    <Carousel
+      className="w-full max-w-full rounded-md overflow-hidden relative"
+      plugins={[
+        Autoplay({
+          delay: 2750,
+        }),
+      ]}
+    >
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem key={index} className="flex items-center justify-center">

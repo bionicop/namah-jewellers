@@ -82,7 +82,7 @@ export function ProductCard({ product, onWishlist }: ProductCardProps): React.Re
         <Link href={productUrl} className="block">
           <div className="aspect-[1/1.1] rounded-lg">
             <div className="relative w-full h-full transition-all duration-500 rounded-lg overflow-hidden">
-              <div className="absolute inset-0 group-hover:border-2 border-gray-200 rounded-lg z-10" />
+              <div className="absolute inset-0 group-hover:border-2 border-gray-100 group-hover:border-primary/20 rounded-lg z-10 transition-colors" />
 
               {/* Primary Image */}
               <ProductImage

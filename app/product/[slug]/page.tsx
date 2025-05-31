@@ -32,7 +32,7 @@ export async function generateMetadata(
       description: product.itemDescription,
       images: [
         {
-          url: product.thumbnail || '/jewellery_images/jewellery1.jpeg',
+          url: product.thumbnail || '/images/jewelry/diamond-ring.jpg',
           width: 1200,
           height: 630,
           alt: product.itemName,

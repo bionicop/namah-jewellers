@@ -13,7 +13,7 @@ export default function AppointmentDialog() {
     <div className='flex flex-row justify-evenly w-full h-auto '>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="bg-yellow-500 text-black hover:bg-yellow-600 text-md sm:text-lg md:text-xl p-2 m:p-4 md:p-6 ">
+          <Button className="bg-primary text-white hover:bg-primary/90 text-md sm:text-lg md:text-xl p-2 m:p-4 md:p-6 ">
             Book Appointment
           </Button>
         </DialogTrigger>

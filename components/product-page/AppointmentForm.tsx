@@ -16,7 +16,7 @@ const AppointmentForm = () => {
     <div className="flex flex-col-reverse md:flex-row-reverse text-black rounded-lg overflow-hidden shadow-lg max-w-6xl w-full mx-auto bg-white">
       {/* Left: Form */}
       <div className="p-2 sm:p-4 md:p-6 ">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-deepBlue mb-4 text-center md:text-left">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-secondary mb-4 text-center md:text-left">
           Book an Appointment
         </h2>
 
@@ -45,7 +45,7 @@ const AppointmentForm = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-evenly">
-          <Button className="w-full sm:w-auto bg-yellow-500 text-black hover:bg-yellow-600">
+          <Button className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90">
             Submit
           </Button>
           <DialogClose asChild>
@@ -57,7 +57,7 @@ const AppointmentForm = () => {
       </div>
 
       {/* Right: Image */}
-      <div className="md:flex flex-1 items-center justify-center bg-deepBlue">
+      <div className="md:flex flex-1 items-center justify-center bg-secondary">
         <div className="relative w-full h-full">
           <Image
             src="/form_image/form1.avif"

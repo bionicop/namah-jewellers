@@ -1,5 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { ChartBarIncreasingIcon, Database, Fingerprint, IdCard, Weight, Gem } from 'lucide-react'
+import { ChartBarIncreasingIcon, Fingerprint, IdCard, Weight } from 'lucide-react'
 import { products } from "@/app/data/products";
 import { type Metadata, type ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
@@ -30,7 +30,7 @@ export async function generateMetadata(
       description: product.itemDescription,
       images: [
         {
-          url: product.thumbnail || '/jewellery_images/jewellery1.jpeg',
+          url: product.thumbnail || '/images/jewelry/diamond-ring.jpg',
           width: 1200,
           height: 630,
           alt: product.itemName,
@@ -72,12 +72,12 @@ export default function Features({ params: { slug } }: Props) {
                         </AccordionTrigger>
                         <AccordionContent>
                             <div className="grid grid-cols-2 gap-4 text-sm">
-                                
+
                                 <div>
                                     <p className="text-gray-500">Gold Stamp</p>
                                     <p>{product.stamp}K</p>
                                 </div>
-                                
+
                                 <div>
                                     <p className="text-gray-500">Net Weight</p>
                                     <p>{product.netWeight}g</p>
@@ -85,7 +85,7 @@ export default function Features({ params: { slug } }: Props) {
                             </div>
                         </AccordionContent>
                     </AccordionItem>
-                    
+
                     <AccordionItem value="item-2">
                         <AccordionTrigger>
                             <div className="flex items-center gap-2 text-base">
@@ -101,7 +101,7 @@ export default function Features({ params: { slug } }: Props) {
                                         <p>{product.diamondWeight}ct</p>
                                     </div>
                                 )}
-                                    
+
                                 {product.coloredStoneWeight > 0 && (
                                     <div>
                                         <p className="text-gray-500">Colored Stone Weight</p>
@@ -111,7 +111,7 @@ export default function Features({ params: { slug } }: Props) {
                             </div>
                         </AccordionContent>
                     </AccordionItem>
-                    
+
                     <AccordionItem value="item-3">
                         <AccordionTrigger>
                             <div className="flex items-center gap-2 text-base">
@@ -125,7 +125,7 @@ export default function Features({ params: { slug } }: Props) {
                                     <p className="text-gray-500">Style</p>
                                     <p>{product.byStyle || 'Classic'}</p>
                                 </div>
-                                
+
                                 <div>
                                     <p className="text-gray-500">Gender</p>
                                     <p>{product.gender}</p>
@@ -133,7 +133,7 @@ export default function Features({ params: { slug } }: Props) {
                             </div>
                         </AccordionContent>
                     </AccordionItem>
-                    
+
                     <AccordionItem value="item-4">
                         <AccordionTrigger>
                             <div className="flex items-center gap-2 text-base">

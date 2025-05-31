@@ -25,7 +25,7 @@ function renderContent(content: string | string[]): React.ReactNode {
 function renderSection(section: LegalSection): React.ReactNode {
   return (
     <div key={section.id} className="space-y-6">
-      <h2 className="text-2xl font-semibold text-amber-600 border-b border-amber-100 pb-2">
+      <h2 className="text-2xl font-semibold text-primary border-b border-primary/20 pb-2">
         {section.title}
       </h2>
 
@@ -40,7 +40,7 @@ function renderSection(section: LegalSection): React.ReactNode {
           {section.subsections.map((subsection) => (
             <div key={subsection.id} className="space-y-3">
               <h3 className="text-lg font-medium text-gray-800 flex items-center">
-                <span className="w-2 h-2 bg-amber-400 rounded-full mr-3"></span>
+                <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
                 {subsection.title}
               </h3>
               <div className="text-gray-700 ml-5">
@@ -66,11 +66,11 @@ export default function LegalDocument({ data, type }: LegalDocumentProps) {
     : `Learn how ${COMPANY_INFO.name} protects your privacy and handles your personal information. Read our comprehensive privacy policy.`
 
   return (
-    <section className="min-h-screen py-12 bg-gradient-to-br from-amber-50/50 via-white to-orange-50/30">
+    <section className="min-h-screen py-12 bg-gradient-to-br from-primary/5 via-white to-primary/10">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
         <header className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
             {data.title}
           </h1>
           <p className="text-gray-600 text-sm md:text-base">
@@ -80,13 +80,13 @@ export default function LegalDocument({ data, type }: LegalDocumentProps) {
 
         {/* Content */}
         <main>
-          <Card className="p-6 md:p-8 lg:p-12 border-amber-200/60 bg-white/90 backdrop-blur-sm shadow-xl">
+          <Card className="p-6 md:p-8 lg:p-12 border-primary/20 bg-white/90 backdrop-blur-sm shadow-lg">
             <div className="space-y-10">
               {data.sections.map(renderSection)}
             </div>
 
             {/* Footer */}
-            <footer className="mt-12 pt-8 border-t border-amber-200/80">
+            <footer className="mt-12 pt-8 border-t border-primary/20">
               <div className="text-center space-y-2">
                 <p className="text-sm text-gray-500">
                   This {data.title} is effective as of {formattedDate}

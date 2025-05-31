@@ -36,7 +36,7 @@ export const INQUIRY_TYPES = [
 
 
 // Basic data arrays
-export const CATEGORIES = ['Diamond Jewellery', 'Gold Jewellery'] as const;
+export const CATEGORIES = ['Diamond Jewellery', 'Gold Jewellery', 'Ladies Ring'] as const;
 export const SUB_CATEGORIES = [
   'Diamond Pendant Set',
   'Diamond Ladies Ring',
@@ -104,15 +104,15 @@ export const FILTER_CATEGORIES = [
     label: 'Stones',
     options: [
       {
-        id: 'colored-stones',
+        id: 'stones-colored',
         label: 'Colored Stones',
-        value: 'true',
+        value: 'colored',
         category: 'stones' as const,
       },
       {
-        id: 'diamonds',
+        id: 'stones-diamond',
         label: 'Diamonds',
-        value: 'true',
+        value: 'diamond',
         category: 'stones' as const,
       }
     ],

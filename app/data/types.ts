@@ -54,12 +54,15 @@ export type ProductStatus = 'PUBLISHED' | 'DRAFT';
 export type ProductGender = 'Ladies' | 'Gents' | 'Unisex';
 
 // Product categories
-export type ProductCategory = 'Diamond Jewellery' | 'Gold Jewellery';
+export type ProductCategory = 'Diamond Jewellery' | 'Gold Jewellery' | 'Ladies Ring';
 export type ProductSubCategory =
   | 'Diamond Pendant Set'
   | 'Diamond Ladies Ring'
   | 'Cocktail Ring'
-  | 'Ladies Ring';
+  | 'Ladies Ring'
+  | 'Diamond Mangalsutra'
+  | 'Diamond Necklace Set'
+  | 'Gold Bracelet';
 
 /**
  * Core product interface representing a jewelry item

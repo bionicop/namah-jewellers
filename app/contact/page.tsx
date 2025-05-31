@@ -44,17 +44,17 @@ export default function ContactSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-amber-50/30 via-white to-amber-50/20">
+    <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-primary/5 via-white to-primary/10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent">Get in Touch</h1>
+          <h1 className="text-4xl font-bold lg:text-5xl xl:text-6xl bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent mb-4">Get in Touch</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Have a question about our jewelry or need assistance? We'd love to hear from you.</p>
         </div>
 
         <div className="grid lg:grid-cols-5 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <Card className="p-8 border-amber-200/50 bg-gradient-to-br from-white to-amber-50/30 shadow-xl">
-              <h2 className="text-3xl font-semibold text-amber-600 mb-6">📞 Connect With Us</h2>
+            <Card className="p-8 border-primary/20 bg-gradient-to-br from-white to-primary/5 shadow-xl">
+              <h2 className="text-3xl font-semibold text-primary mb-6">📞 Connect With Us</h2>
               <div className="space-y-4">
                 {SOCIAL_LINKS.map(({ href, bg, title, subtitle, extra, icon }, i) => (
                   <Link key={i} href={href} target="_blank" className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 transition-all group">
@@ -71,14 +71,14 @@ export default function ContactSection() {
               </div>
             </Card>
 
-            <Card className="p-6 border-amber-200/50 bg-gradient-to-br from-white to-amber-50/30 shadow-xl">
+            <Card className="p-6 border-primary/20 bg-gradient-to-br from-white to-primary/5 shadow-xl">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-amber-100 rounded-full">
-                  <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="p-2 bg-primary/10 rounded-full">
+                  <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-amber-700">Business Hours</h3>
+                <h3 className="text-xl font-semibold text-primary">Business Hours</h3>
               </div>
 
               <div className="space-y-4">
@@ -102,8 +102,8 @@ export default function ContactSection() {
           </div>
 
           <div className="lg:col-span-3">
-            <Card className="p-8 border-amber-200/50 bg-gradient-to-br from-white to-amber-50/20 shadow-xl">
-              <h2 className="text-3xl font-semibold text-amber-600 mb-6">✉️ Send us a message</h2>
+            <Card className="p-8 border-primary/20 bg-gradient-to-br from-white to-primary/5 shadow-xl">
+              <h2 className="text-3xl font-semibold text-primary mb-6">✉️ Send us a message</h2>
 
               {response && (
                 <div className={`p-4 rounded-lg mb-6 border flex items-center gap-2 ${response.success ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
@@ -114,17 +114,17 @@ export default function ContactSection() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <div><Label htmlFor="name">Full Name *</Label><Input id="name" name="name" value={formData.name} onChange={handleChange} required className="border-amber-200 focus:border-amber-500 h-12" placeholder="Your full name" /></div>
-                  <div><Label htmlFor="email">Email Address *</Label><Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="border-amber-200 focus:border-amber-500 h-12" placeholder="your.email@example.com" /></div>
+                  <div><Label htmlFor="name">Full Name *</Label><Input id="name" name="name" value={formData.name} onChange={handleChange} required className="border-primary/20 focus:border-primary h-12" placeholder="Your full name" /></div>
+                  <div><Label htmlFor="email">Email Address *</Label><Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="border-primary/20 focus:border-primary h-12" placeholder="your.email@example.com" /></div>
                 </div>
 
-                <div><Label htmlFor="phone">Phone Number (Optional)</Label><Input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="border-amber-200 focus:border-amber-500 h-12" placeholder="+91 XXXXX XXXXX" /></div>
+                <div><Label htmlFor="phone">Phone Number (Optional)</Label><Input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="border-primary/20 focus:border-primary h-12" placeholder="+91 XXXXX XXXXX" /></div>
 
                 <div>
                   <Label>What can we help you with? *</Label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
                     {INQUIRY_TYPES.map((type) => (
-                      <button key={type.id} type="button" onClick={() => setFormData(prev => ({ ...prev, inquiryType: type.id }))} className={`p-3 rounded-lg border-2 transition-all hover:scale-105 text-left ${formData.inquiryType === type.id ? 'border-amber-500 bg-amber-50 shadow-md' : 'border-gray-200 hover:border-amber-300'}`}>
+                      <button key={type.id} type="button" onClick={() => setFormData(prev => ({ ...prev, inquiryType: type.id }))} className={`p-3 rounded-lg border-2 transition-all hover:scale-105 text-left ${formData.inquiryType === type.id ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 hover:border-primary/30'}`}>
                         <div className="text-xl mb-1">{type.icon}</div>
                         <div className="text-xs font-medium">{type.label}</div>
                       </button>
@@ -132,9 +132,9 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                <div><Label htmlFor="message">Your Message *</Label><Textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={6} required className="border-amber-200 focus:border-amber-500" placeholder="Tell us more about your inquiry..." /></div>
+                <div><Label htmlFor="message">Your Message *</Label><Textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={6} required className="border-primary/20 focus:border-primary" placeholder="Tell us more about your inquiry..." /></div>
 
-                <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 font-semibold h-12 shadow-lg hover:shadow-xl">
+                <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 font-semibold h-12 shadow-lg hover:shadow-xl">
                   {isSubmitting ? <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>Sending...</> : <>Send Message 📤</>}
                 </Button>
               </form>

@@ -65,28 +65,28 @@ export default function FAQs() {
     ];
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50/30">
+        <main className="min-h-screen bg-gradient-to-br from-slate-50 to-primary/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 {/* Header Section */}
                 <div className="text-center mb-16">
                     <div className="flex justify-center mb-6">
                         <div className="relative">
-                            <HelpCircle className="h-16 w-16 text-amber-600" />
-                            <Sparkles className="absolute -top-1 -right-1 h-6 w-6 text-amber-400 animate-pulse" />
+                            <HelpCircle className="h-16 w-16 text-primary" />
+                            <Sparkles className="absolute -top-1 -right-1 h-6 w-6 text-primary animate-pulse" />
                         </div>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                        <span className="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
                             Frequently Asked
                         </span>
                         <br />
-                        <span className="text-gray-800">Questions</span>
+                        <span className="text-secondary">Questions</span>
                     </h1>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         Find answers to common questions about our
-                        <span className="text-amber-600 font-semibold"> luxury jewelry collection</span>,
+                        <span className="text-primary font-semibold"> luxury jewelry collection</span>,
                         services, and policies. Can't find what you're looking for?
-                        <span className="text-amber-600 font-semibold"> Contact our experts</span>.
+                        <span className="text-primary font-semibold"> Contact our experts</span>.
                     </p>
                 </div>
 
@@ -97,12 +97,12 @@ export default function FAQs() {
                             <CardContent className="p-8">
                                 <div className="flex items-start gap-6">
                                     <div className="flex-shrink-0 mt-1">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-full flex items-center justify-center group-hover:from-amber-200 group-hover:to-yellow-200 transition-all duration-300">
-                                            <Diamond className="h-6 w-6 text-amber-600" />
+                                        <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300">
+                                            <Diamond className="h-6 w-6 text-primary" />
                                         </div>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 group-hover:text-amber-600 transition-colors duration-300">
+                                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 group-hover:text-primary transition-colors duration-300">
                                             {faq.question}
                                         </h3>
                                         <p className="text-gray-600 text-lg leading-relaxed mb-6">
@@ -110,11 +110,11 @@ export default function FAQs() {
                                         </p>
 
                                         {faq.details && (
-                                            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-6 border-l-4 border-amber-400">
+                                            <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg p-6 border-l-4 border-primary">
                                                 <ul className="space-y-3">
                                                     {faq.details.map((detail, detailIndex) => (
                                                         <li key={detailIndex} className="flex items-start gap-3 text-gray-700">
-                                                            <Crown className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                                                            <Crown className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                                                             <span>{detail}</span>
                                                         </li>
                                                     ))}
@@ -130,7 +130,7 @@ export default function FAQs() {
 
                 {/* Contact Section */}
                 <div className="mt-20 text-center">
-                    <div className="bg-gradient-to-r from-amber-600 to-yellow-600 rounded-2xl p-8 text-white">
+                    <div className="bg-gradient-to-r from-primary to-primary rounded-2xl p-8 text-white">
                         <div className="flex justify-center mb-4">
                             <Sparkles className="h-12 w-12" />
                         </div>
@@ -143,13 +143,13 @@ export default function FAQs() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
                                 href="/contact"
-                                className="bg-white text-amber-600 px-8 py-3 rounded-lg font-semibold hover:bg-amber-50 transition-all duration-300 transform hover:scale-105"
+                                className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors border border-gray-100 hover:border-primary/20"
                             >
                                 Contact Our Experts
                             </a>
                             <a
                                 href="tel:+91-1234567890"
-                                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-amber-600 transition-all duration-300"
+                                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors"
                             >
                                 Call Us Now
                             </a>
